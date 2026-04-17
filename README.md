@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Event Flow
 
-## Getting Started
+A CRM and client planning portal built for event DJs.
 
-First, run the development server:
+It helps DJs manage leads, bookings, client communication, planning details, contracts, invoices, and event workflows in one place.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Why This App Exists
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Most event DJs manage their business across too many disconnected tools, including email, spreadsheets, contracts, notes, and planning documents.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Event Flow is built to bring those workflows into one system so the booking process is easier to manage from inquiry to event completion.
 
-## Learn More
+The goal is to create a practical app that supports how event DJs actually run their business.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## What the App Covers
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This app is designed to support the core workflow of an event DJ business, including:
 
-## Deploy on Vercel
+• lead intake and inquiry tracking  
+• pipeline management  
+• client records  
+• event planning details  
+• contracts and invoices  
+• client portal workflows  
+• business automation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Lead Intake Architecture
+
+This app ingests inquiries from external providers rather than replacing website forms.
+
+Example intake flow:
+
+Website form  
+↓  
+External provider  
+↓  
+Email notification to DJ  
+↓  
+Webhook or API call to CRM  
+↓  
+Lead record created
+
+Email notifications remain active so inquiries are never lost.
+
+---
+
+## Tech Stack
+
+Next.js  
+TypeScript  
+PostgreSQL  
+Prisma  
+Vitest  
+React Testing Library  
+Playwright
+
+---
+
+## Roadmap
+
+Week 1  
+CRM foundation and lead ingestion
+
+Week 2  
+Lead pipeline and authentication
+
+Week 3  
+Contracts and invoices
+
+Week 4  
+Client planning portal
+
+Week 5  
+Automation and production readiness
