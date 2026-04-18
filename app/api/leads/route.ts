@@ -4,14 +4,26 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    console.log("Incoming lead:", body);
+    const lead = await prisma.lead.create({
+      data: {
+        name: body.name,
+        email: body.email,
+        phone: body.phone || null,
+        eventDate: body.eventDate
+          ? new Date(body.eventDate)
+          : null,
+        venue: body.venue || null,
+        message: body.message || null,
+        source: body.source || "MANUAL",
+      },
+    });
 
-    return Response.json({ success: true });
+    return Response.json({ success: true, lead });
   } catch (error) {
     console.error(error);
 
     return Response.json(
-      { error: "Something went wrong" },
+      { error: "Failed to create lead" },
       { status: 500 }
     );
   }
