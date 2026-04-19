@@ -78,3 +78,15 @@ Client planning portal
 
 Week 5  
 Automation and production readiness
+
+
+## Current Progress
+
+Completed so far:
+
+- Next.js project foundation
+- PostgreSQL database setup with Neon
+- Prisma schema and migrations
+- Lead model
+- Lead creation API route
+- Admin leads page that reads from the database
