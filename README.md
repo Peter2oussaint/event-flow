@@ -62,6 +62,12 @@ The API currently requires the core inquiry fields used in the Formspree intake 
 
 The `source` field is constrained to known intake values and may be omitted, in which case the backend applies a fallback.
 
+## Intake Adapters
+
+Event Flow uses an adapter layer to normalize incoming lead data from external providers like Formspree into a consistent internal schema.
+
+This ensures the system remains stable and scalable as new intake sources are added.
+
 ## Tech Stack
 
 Next.js  
