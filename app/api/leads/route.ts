@@ -1,20 +1,30 @@
 import { prisma } from "@/lib/prisma";
+import { leadSchema } from "@/lib/validation/lead";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    const result = leadSchema.safeParse(body);
+
+    if (!result.success) {
+      return Response.json(
+        { error: result.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const data = result.data;
+
     const lead = await prisma.lead.create({
       data: {
-        name: body.name,
-        email: body.email,
-        phone: body.phone || null,
-        eventDate: body.eventDate
-          ? new Date(body.eventDate)
-          : null,
-        venue: body.venue || null,
-        message: body.message || null,
-        source: body.source || "MANUAL",
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        eventDate: new Date(data.eventDate),
+        venue: data.venue,
+        message: data.message,
+        source: data.source ?? "MANUAL",
       },
     });
 
