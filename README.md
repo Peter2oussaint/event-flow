@@ -48,7 +48,19 @@ Lead record created
 
 Email notifications remain active so inquiries are never lost.
 
----
+## Data Validation
+
+Lead ingestion uses Zod to validate incoming data before writing to the database.
+
+The API currently requires the core inquiry fields used in the Formspree intake flow:
+- name
+- email
+- phone
+- event date
+- venue
+- message
+
+The `source` field is constrained to known intake values and may be omitted, in which case the backend applies a fallback.
 
 ## Tech Stack
 
