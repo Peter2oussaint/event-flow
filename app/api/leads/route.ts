@@ -1,11 +1,19 @@
 import { prisma } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validation/lead";
+import { adaptFormspree } from "@/lib/adapters/formspree";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const result = leadSchema.safeParse(body);
+    // Detect source
+    const isFormspree = "full_name" in body;
+
+    const normalized = isFormspree
+      ? adaptFormspree(body)
+      : body;
+
+    const result = leadSchema.safeParse(normalized);
 
     if (!result.success) {
       return Response.json(
