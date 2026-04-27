@@ -48,7 +48,25 @@ Lead record created
 
 Email notifications remain active so inquiries are never lost.
 
----
+## Data Validation
+
+Lead ingestion uses Zod to validate incoming data before writing to the database.
+
+The API currently requires the core inquiry fields used in the Formspree intake flow:
+- name
+- email
+- phone
+- event date
+- venue
+- message
+
+The `source` field is constrained to known intake values and may be omitted, in which case the backend applies a fallback.
+
+## Intake Adapters
+
+Event Flow uses an adapter layer to normalize incoming lead data from external providers like Formspree into a consistent internal schema.
+
+This ensures the system remains stable and scalable as new intake sources are added.
 
 ## Tech Stack
 
@@ -78,3 +96,15 @@ Client planning portal
 
 Week 5  
 Automation and production readiness
+
+
+## Current Progress
+
+Completed so far:
+
+- Next.js project foundation
+- PostgreSQL database setup with Neon
+- Prisma schema and migrations
+- Lead model
+- Lead creation API route
+- Admin leads page that reads from the database
