@@ -9,17 +9,12 @@ export async function POST(request: Request) {
     // Detect source
     const isFormspree = "full_name" in body;
 
-    const normalized = isFormspree
-      ? adaptFormspree(body)
-      : body;
+    const normalized = isFormspree ? adaptFormspree(body) : body;
 
     const result = leadSchema.safeParse(normalized);
 
     if (!result.success) {
-      return Response.json(
-        { error: result.error.flatten() },
-        { status: 400 }
-      );
+      return Response.json({ error: result.error.flatten() }, { status: 400 });
     }
 
     const data = result.data;
@@ -33,6 +28,7 @@ export async function POST(request: Request) {
         venue: data.venue,
         message: data.message,
         source: data.source ?? "MANUAL",
+        status: "NEW",
       },
     });
 
@@ -40,9 +36,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(error);
 
-    return Response.json(
-      { error: "Failed to create lead" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Failed to create lead" }, { status: 500 });
   }
 }
