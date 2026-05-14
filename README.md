@@ -108,3 +108,11 @@ Completed so far:
 - Lead model
 - Lead creation API route
 - Admin leads page that reads from the database
+
+Current MVP capabilities include:
+
+- lead ingestion through the API
+- validation of incoming lead data
+- storage of leads in PostgreSQL
+- admin dashboard view for leads
+- lead status tracking for basic pipeline management
