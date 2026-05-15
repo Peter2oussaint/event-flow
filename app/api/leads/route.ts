@@ -1,25 +1,35 @@
 import { prisma } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validation/lead";
-import { adaptFormspree } from "@/lib/adapters/formspree";
+import { adaptFormspreePayload } from "@/lib/adapters/formspree";
+
+const formspreeFields = [
+  "full_name",
+  "email_address",
+  "phone_number",
+  "event_date",
+];
+
+function looksLikeFormspreePayload(body: unknown) {
+  if (!body || typeof body !== "object") {
+    return false;
+  }
+
+  return formspreeFields.some((field) => field in body);
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Detect source
-    const isFormspree = "full_name" in body;
-
-    const normalized = isFormspree
-      ? adaptFormspree(body)
+    // Provider payloads are normalized into the internal lead shape before validation.
+    const normalized = looksLikeFormspreePayload(body)
+      ? adaptFormspreePayload(body)
       : body;
 
     const result = leadSchema.safeParse(normalized);
 
     if (!result.success) {
-      return Response.json(
-        { error: result.error.flatten() },
-        { status: 400 }
-      );
+      return Response.json({ error: result.error.flatten() }, { status: 400 });
     }
 
     const data = result.data;
@@ -33,6 +43,7 @@ export async function POST(request: Request) {
         venue: data.venue,
         message: data.message,
         source: data.source ?? "MANUAL",
+        status: "NEW",
       },
     });
 
@@ -40,9 +51,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(error);
 
-    return Response.json(
-      { error: "Failed to create lead" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Failed to create lead" }, { status: 500 });
   }
 }

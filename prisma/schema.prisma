@@ -16,5 +16,6 @@ model Lead {
   venue     String?
   message   String?
   source    String
+  status    String   @default("NEW")
   createdAt DateTime @default(now())
 }
