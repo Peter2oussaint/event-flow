@@ -16,18 +16,14 @@ export default async function AdminLeadsPage() {
       ) : (
         <div className="space-y-4">
           {leads.map((lead) => (
-            <div
-              key={lead.id}
-              className="border rounded-lg p-4 shadow-sm"
-            >
+            <div key={lead.id} className="border rounded-lg p-4 shadow-sm">
               <h2 className="text-lg font-semibold">{lead.name}</h2>
               <p>{lead.email}</p>
               <p>{lead.phone ?? "No phone provided"}</p>
               <p>{lead.venue ?? "No venue provided"}</p>
               <p>{lead.message ?? "No message provided"}</p>
-              <p className="text-sm text-gray-500">
-                Source: {lead.source}
-              </p>
+              <p className="text-sm font-medium">Status: {lead.status}</p>
+              <p className="text-sm text-gray-500">Source: {lead.source}</p>
             </div>
           ))}
         </div>
