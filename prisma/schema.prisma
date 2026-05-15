@@ -8,14 +8,15 @@ datasource db {
 }
 
 model Lead {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
   email     String
   phone     String?
   eventDate DateTime?
+  eventType String?
   venue     String?
   message   String?
   source    String
-  status    String   @default("NEW")
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  status    String    @default("NEW")
 }

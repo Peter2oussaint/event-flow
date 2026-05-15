@@ -7,6 +7,8 @@ type FormspreePayload = {
   phone_number?: string;
   eventDate?: string;
   event_date?: string;
+  eventType?: string;
+  event_type?: string;
   venue?: string;
   message?: string;
 };
@@ -17,6 +19,7 @@ export function adaptFormspreePayload(payload: FormspreePayload) {
     email: payload.email ?? payload.email_address ?? "",
     phone: payload.phone ?? payload.phone_number ?? "",
     eventDate: payload.eventDate ?? payload.event_date ?? "",
+    eventType: payload.eventType ?? payload.event_type ?? "",
     venue: payload.venue ?? "",
     message: payload.message ?? "",
     source: "FORMSPREE" as const,

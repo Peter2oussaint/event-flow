@@ -52,6 +52,7 @@ export async function POST(request: Request) {
         email: data.email,
         phone: data.phone,
         eventDate: new Date(data.eventDate),
+        eventType: data.eventType,
         venue: data.venue,
         message: data.message,
         source: data.source ?? "FORMSPREE",
