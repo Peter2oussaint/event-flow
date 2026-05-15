@@ -1,15 +1,30 @@
 import { prisma } from "@/lib/prisma";
 import { leadSchema } from "@/lib/validation/lead";
-import { adaptFormspree } from "@/lib/adapters/formspree";
+import { adaptFormspreePayload } from "@/lib/adapters/formspree";
+
+const formspreeFields = [
+  "full_name",
+  "email_address",
+  "phone_number",
+  "event_date",
+];
+
+function looksLikeFormspreePayload(body: unknown) {
+  if (!body || typeof body !== "object") {
+    return false;
+  }
+
+  return formspreeFields.some((field) => field in body);
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Detect source
-    const isFormspree = "full_name" in body;
-
-    const normalized = isFormspree ? adaptFormspree(body) : body;
+    // Provider payloads are normalized into the internal lead shape before validation.
+    const normalized = looksLikeFormspreePayload(body)
+      ? adaptFormspreePayload(body)
+      : body;
 
     const result = leadSchema.safeParse(normalized);
 
