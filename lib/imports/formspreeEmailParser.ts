@@ -3,6 +3,7 @@ type ImportedFormspreeLead = {
   email: string;
   phone: string;
   eventDate: string;
+  eventType: string;
   venue: string;
   message: string;
   source: "FORMSPREE";
@@ -61,6 +62,7 @@ export function parseFormspreeEmailBody(
     email: getLineAfterLabel(lines, "email"),
     phone: getLineAfterLabel(lines, "phone"),
     eventDate: getLineAfterLabel(lines, "event_date"),
+    eventType: getLineAfterLabel(lines, "event_type"),
     venue: getLineAfterLabel(lines, "venue"),
     message,
     source: "FORMSPREE",
