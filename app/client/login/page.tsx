@@ -1,6 +1,49 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { type FormEvent, useState } from "react";
 
 export default function ClientLoginPage() {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/auth/client-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          typeof result.error === "string" ? result.error : "Login failed",
+        );
+      }
+
+      router.push("/client/dashboard");
+      router.refresh();
+    } catch (loginError) {
+      setError(
+        loginError instanceof Error ? loginError.message : "Login failed",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <main className="font-futura min-h-screen bg-[#48897f] px-8 py-8 text-white sm:px-12 lg:px-16">
       <section className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-[1900px] items-center gap-10 lg:grid-cols-[430px_1fr] xl:grid-cols-[500px_1fr]">
@@ -20,13 +63,15 @@ export default function ClientLoginPage() {
             Login
           </h1>
 
-          <form className="mt-12 max-w-md space-y-8">
+          <form onSubmit={handleSubmit} className="mt-12 max-w-md space-y-8">
             <label className="block">
               <span className="text-2xl font-light text-white sm:text-[1.7rem]">
                 Username
               </span>
               <input
                 type="text"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
                 className="mt-0 block w-full border-0 border-b-3 border-white bg-transparent px-0 py-0 text-2xl font-light text-white outline-none placeholder:text-white/50 focus:border-[#f0d4c9] sm:text-[1.7rem]"
               />
             </label>
@@ -37,22 +82,24 @@ export default function ClientLoginPage() {
               </span>
               <input
                 type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 className="mt-0 block w-full border-0 border-b-3 border-white bg-transparent px-0 py-0 text-2xl font-light text-white outline-none placeholder:text-white/50 focus:border-[#f0d4c9] sm:text-[1.7rem]"
               />
             </label>
 
-            <button
-              type="button"
-              className="text-left text-2xl font-light text-white transition hover:text-[#f0d4c9] sm:text-[1.7rem]"
-            >
-              Forgot Password?
-            </button>
+            {error ? (
+              <p className="text-xl font-light text-[#f0d4c9] sm:text-2xl">
+                {error}
+              </p>
+            ) : null}
 
             <button
-              type="button"
+              type="submit"
+              disabled={isSubmitting}
               className="mt-4 w-full rounded-full bg-[#f0d4c9] px-8 py-3 text-2xl font-light text-[#48897f] transition hover:bg-white sm:text-[1.7rem]"
             >
-              Login
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </form>
         </div>
