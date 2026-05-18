@@ -23,4 +23,5 @@ model Lead {
   depositAmountCents     Int?
   depositReceivedAt      DateTime?
   finalPaymentReceivedAt DateTime?
+  musicPlanningReminderSentAt DateTime?
 }
