@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { prisma } from "@/lib/prisma";
 import { LeadPaymentPanel } from "./lead-payment-panel";
+import { MusicPlanningReminderPanel } from "./music-planning-reminder-panel";
 
 const leadStatuses = [
   "NEW",
@@ -332,6 +333,15 @@ export default async function AdminLeadsPage({
                   }
                   finalPaymentReceivedAt={
                     lead.finalPaymentReceivedAt?.toISOString() ?? null
+                  }
+                />
+
+                <MusicPlanningReminderPanel
+                  leadId={lead.id}
+                  clientName={lead.name}
+                  eventDate={lead.eventDate?.toISOString() ?? null}
+                  musicPlanningReminderSentAt={
+                    lead.musicPlanningReminderSentAt?.toISOString() ?? null
                   }
                 />
               </article>
