@@ -4,6 +4,7 @@ import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 
 import { prisma } from "@/lib/prisma";
+import { LeadPaymentPanel } from "./lead-payment-panel";
 
 const leadStatuses = [
   "NEW",
@@ -321,6 +322,18 @@ export default async function AdminLeadsPage({
                     </LeadField>
                   </div>
                 </dl>
+
+                <LeadPaymentPanel
+                  leadId={lead.id}
+                  quoteAmountCents={lead.quoteAmountCents}
+                  depositAmountCents={lead.depositAmountCents}
+                  depositReceivedAt={
+                    lead.depositReceivedAt?.toISOString() ?? null
+                  }
+                  finalPaymentReceivedAt={
+                    lead.finalPaymentReceivedAt?.toISOString() ?? null
+                  }
+                />
               </article>
             );
           })}
